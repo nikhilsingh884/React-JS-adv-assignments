@@ -87,15 +87,27 @@
         }
 
         function calc(v) {
+            // debugger
+
             var index = $(v).parent().parent().index();
 
             var qty = document.getElementsByName("qty")[index].value;
             var rate = document.getElementsByName("rate")[index].value;
 
-            amt = qty * rate;
+            var amt = qty * rate;
+            document.getElementsByName("amt")[index].value = amt;
 
             getTotal();
+
         }
+        // function multi() {
+        //     var qty = document.getElementById("qty").value;
+        //     var rate = document.getElementById("rate").value;
+
+        //     var amt = qty * rate;
+
+        //     document.getElementById("amts").value = amt;
+        // }
 
         function getTotal() {
             var sum = 0;
@@ -118,7 +130,7 @@
     </div>
 
     <div class="container">
-        <div class="col-md-6 offset-3 mt-5 shadow">          
+        <div class="col-md-6 offset-3 mt-5 shadow">
             <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
@@ -151,7 +163,7 @@
                                 onchange="calc(this)" style="width: 80px;">
                         </td>
                         <td>
-                            <input id="amt" name="amt" class="form-control" type="button" style="width: 80px;" value="">
+                            <input id="amts" name="amt" class="form-control" type="text" style="width: 80px;" readonly>
                         </td>
                         <td>
                             <button class="btn btn-danger" onclick="BtnDel(this)">X</button>
@@ -172,7 +184,7 @@
                         <div class="input-group">
                             <span class="input-group-text" id="inputGroup-sizing-default">Total</span>
                             <input type="text" name="total" id="total" class="form-control"
-                                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" readonly>
                         </div>
                     </td>
                 </tr>
