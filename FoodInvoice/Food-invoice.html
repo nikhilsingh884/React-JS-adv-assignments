@@ -23,6 +23,27 @@
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 
     <style>
+        @media print {
+            .btn {
+                display: none;
+            }
+
+            #qty {
+                border: none !important;
+                background-color: transparent !important;
+            }
+
+            #rate {
+                border: none !important;
+                background-color: transparent !important;
+            }
+
+            .remove-col {
+                display: none;
+            }
+
+        }
+
         .itemImg img {
             height: 40px;
             width: 40px;
@@ -82,6 +103,18 @@
 
         }
 
+
+        function getRate(selectElement) {
+            var selectedOption = selectElement.options[selectElement.selectedIndex];
+            var rate = selectedOption.dataset.rate;
+
+            var rateInput = selectElement.closest('tr').querySelector('input[name="rate"]');
+            rateInput.value = rate;
+
+            calc(rateInput);
+        }
+
+
         function calc(v) {
 
             var index = $(v).parent().parent().index();
@@ -108,6 +141,11 @@
             document.getElementById("total").value = sum;
 
         }
+
+
+        function getPrint() {
+            window.print();
+        }
     </script>
 </head>
 
@@ -128,7 +166,7 @@
                         <th class="fs-5 text-muted text-center">Qty</th>
                         <th class="fs-5 text-muted text-center">Rate</th>
                         <th class="fs-5 text-muted text-center">Sub-Total</th>
-                        <td class="fs-5 text-muted text-center"></td>
+                        <td class="fs-5 text-muted text-center remove-col"></td>
                     </tr>
                 </thead>
                 <tbody id="TBody">
@@ -139,36 +177,36 @@
                     <tr id="TRow" class="d-none">
                         <td class="d-flex align-items-center gap-3">
                             <div class="itemImg">
-                                <select name="foodlist" id="">
+                                <select name="foodlist" onchange="getRate(this)">
                                     <option class="px-1" value="">--------select---------</option>
-                                    <option value="">Dry Manchurian</option>
-                                    <option value="">Hakka Noodles</option>
-                                    <option value="">Tandoori Paneer Tikka</option>
-                                    <option value="">Malai Chaap</option>
-                                    <option value="">Garlic Bread</option>
-                                    <option value="">Fried Rice</option>
-                                    <option value="">Pav Bhaji</option>
-                                    <option value="">Masala Dosa</option>
-                                    <option value="">Coldrink</option>
+                                    <option value="" data-rate="110"> Dry Manchurian</option>
+                                    <option value="" data-rate="120"> Hakka Noodles</option>
+                                    <option value="" data-rate="180"> Tandoori Paneer Tikka</option>
+                                    <option value="" data-rate="230"> Malai Chaap</option>
+                                    <option value="" data-rate="90"> Garlic Bread</option>
+                                    <option value="" data-rate="100"> Fried Rice</option>
+                                    <option value="" data-rate="80"> Pav Bhaji</option>
+                                    <option value="" data-rate="120"> Masala Dosa</option>
+                                    <option value="" data-rate="25"> Coldrink</option>
                                 </select>
                         </td>
                         <td>
-                            <input id="qty" name="qty" class="form-control" type="number" style="width: 80px;"
-                                onchange="calc(this)">
+                            <input id="qty" name="qty" class="form-control text-end" type="number" style="width: 80px;"
+                                onblur="calc(this)">
                         </td>
                         <td>
-                            <input type="text" id="rate" name="rate" class="form-control" type="text"
-                                onchange="calc(this)" style="width: 80px;">
+                            <input type="text" id="rate" name="rate" class="form-control text-end" type="text"
+                                onchange="" style="width: 80px;">
                         </td>
                         <td>
                             <div class="d-flex align-items-center">
-                                <input id="amts" name="amt" class="form-control subTotal border-0 " type="text"
+                                <input id="amts" name="amt" class="form-control subTotal border-0  text-end" type="text"
                                     style="width: 80px;" readonly>
                                 <span class="subTotal-rupee">&#8377;</span>
                             </div>
                         </td>
                         <td>
-                            <button class="btn btn-danger" onclick="BtnDel(this)">Remove</button>
+                            <button class="btn btn-danger remove-col" onclick="BtnDel(this)">Remove</button>
                         </td>
                     </tr>
 
@@ -182,11 +220,12 @@
                     <div class="btn btn-group"><button class="btn btn-info" id="addItem" onclick="BtnAdd()">Add
                             item</button>
                     </div>
+
                 </div>
                 <div class="col-md-6 px-4">
 
                     <div class="input-group mb-3 d-flex align-items-center">
-                        <span class="pe-3 fs-5 fw-bold text-muted">Total</span>
+                        <span class="pe-3 fs-5 fw-bold text-muted text-end">Total</span>
                         <span class="input-group-text">&#8377;</span>
                         <input type="text" class="form-control" id="total"
                             aria-label="Dollar amount (with dot and two decimal places)">
